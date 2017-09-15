@@ -205,7 +205,7 @@ defmodule GraphqlDeuxTest do
       })
     foo = GraphqlDeux.call(conn, @opts)
     assert {:ok, json} = JSX.decode(foo.resp_body)
-    assert %{"node" => %{"age" => 8, "tshirt" => test}} = json
+    assert %{"node" => %{"age" => 8, "tshirt" => _test}} = json
     # printing to std so one can inspect the output by running the
     # tests for science
     IO.inspect json
