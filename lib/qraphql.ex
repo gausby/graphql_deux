@@ -1,55 +1,9 @@
 defmodule GraphQL do
   @moduledoc false
 
-  defstruct test: nil
 
-  def init(opts) do
-    with {:ok, mapping} <- get_mapping(opts),
-         {:ok, schema} <- get_schema(opts),
-         :ok = :graphql.load_schema(mapping, schema),
-         {:ok, root} <- get_root_schema(opts),
-         :ok = :graphql.insert_schema_definition(root),
-         :ok = :graphql.validate_schema() do
-      %__MODULE__{}
-    else
-      _ -> nil # todo, handle errors
-    end
-  end
 
-  defp get_mapping(opts) do
-    case Keyword.fetch(opts, :mapping) do
-      :error -> {:error, :missing_mapping}
-      {:ok, value} -> {:ok, value}
-    end
-  end
+  defdelegate init(opts), to: GraphQL.Schema
 
-  defp get_schema(opts) do
-    case Keyword.fetch(opts, :schema) do
-      :error -> {:error, :missing_schema}
-      {:ok, value} -> {:ok, value}
-    end
-  end
-
-  @default_root_schema %{
-    :query => "Query",
-    :mutation => "Mutation",
-    :interfaces => ["Node"]
-  }
-  defp get_root_schema(opts) do
-    root_schema = Keyword.get(opts, :root, @default_root_schema)
-    {:ok, {:root, root_schema}}
-  end
-
-  def query(query, operation, variables \\ %{}) when is_map(variables) do
-    with {:ok, ast} <- :graphql.parse(query),
-         ast <- :graphql.elaborate(ast),
-         {:ok, %{:ast => ast, :fun_env => fun_env}} <- :graphql.type_check(ast),
-         :ok <- :graphql.validate(ast) do
-      coerced = :graphql.type_check_params(fun_env, operation, variables)
-      context = %{params: coerced, operation_name: operation}
-      :graphql.execute(context, ast)
-    else
-      _ -> nil # todo, handle errors
-    end
-  end
+  defdelegate query(query, operation, variables \\ %{}), to: GraphQL.Query
 end
