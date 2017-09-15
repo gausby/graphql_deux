@@ -1,7 +1,7 @@
 defmodule GraphQL.Query do
   @moduledoc false
 
-  def query(query, operation, variables \\ %{}) when is_map(variables) do
+  def run(query, operation, variables \\ %{}) when is_map(variables) do
     with {:ok, ast} <- :graphql.parse(query),
          ast <- :graphql.elaborate(ast),
          {:ok, %{:ast => ast, :fun_env => fun_env}} <- :graphql.type_check(ast),
