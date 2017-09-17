@@ -87,6 +87,8 @@ We need to work on better error reporting from the GraphQL engine
 itself, but the wrapper could perhaps report errors in a format that
 is better suited for Elixir.
 
+We need to define exceptions and define them with `defexception`.
+
 This needs some R&D.
 
 
