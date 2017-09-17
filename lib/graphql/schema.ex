@@ -1,7 +1,8 @@
 defmodule GraphQL.Schema do
+  @moduledoc false
+
   defstruct test: nil
 
-  @moduledoc false
   def init(opts) do
     with {:ok, mapping} <- get_mapping(opts),
          {:ok, schema} <- get_schema(opts),
