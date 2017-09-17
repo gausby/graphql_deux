@@ -111,14 +111,14 @@ defmodule Union.Default do
   end
 end
 
-defmodule GraphqlDeuxTest do
+defmodule GraphqlPlugTest do
   use ExUnit.Case
   use Plug.Test
 
-  doctest GraphqlDeux
+  doctest GraphQL.Plug
 
   # schema would of course be read by the File-module
-  @opts GraphqlDeux.init(
+  @opts GraphQL.Plug.init(
     [ schema: """
       +description(text: "Relay Modern Node Interface")
       interface Node {
@@ -203,7 +203,7 @@ defmodule GraphqlDeuxTest do
          """,
          variables: %{"id" => "5"}
       })
-    foo = GraphqlDeux.call(conn, @opts)
+    foo = GraphQL.Plug.call(conn, @opts)
     assert {:ok, json} = JSX.decode(foo.resp_body)
     assert %{"node" => %{"age" => 8, "tshirt" => _test}} = json
     # printing to std so one can inspect the output by running the
@@ -231,7 +231,7 @@ defmodule GraphqlDeuxTest do
            }
          }
       })
-    foo = GraphqlDeux.call(conn, @opts)
+    foo = GraphQL.Plug.call(conn, @opts)
     IO.inspect JSX.decode(foo.resp_body)
   end
 end

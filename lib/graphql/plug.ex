@@ -1,4 +1,4 @@
-defmodule GraphqlDeux do
+defmodule GraphQL.Plug do
   @moduledoc """
   Todo, write stuff
   """
