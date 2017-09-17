@@ -28,9 +28,3 @@ defmodule GraphQL.Query do
     end
   end
 end
-
-defmodule GraphQL.Query.Result do
-  defstruct [
-    data: nil, aux: nil, errors: nil
-  ]
-end
