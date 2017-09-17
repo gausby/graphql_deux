@@ -13,7 +13,7 @@ defmodule GraphqlDeux do
     variables = Map.get(conn.body_params, "variables", %{})
     {:ok, query} = get_query(conn.body_params)
     {:ok, operation} = get_operation(conn.body_params)
-    %{data: result} = GraphQL.query(query, operation, variables)
+    %{result: %{data: result}} = GraphQL.query(query, operation, variables)
     resp_body = :jsx.encode(result)
     conn
     |> put_resp_content_type("application/json")
